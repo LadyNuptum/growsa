@@ -34,7 +34,6 @@ public class Usuarios {
     private String contraseña;
 
     @PastOrPresent(message = "La fecha no puede ser futura")
-    @Column(nullable = false)
     private LocalDate fecha_registro;
 
     //! Relaciones
