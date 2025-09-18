@@ -58,4 +58,12 @@ public class Detalles_Carrito {
     public void setProducto(Productos producto) {
         this.producto = producto;
     }
+
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Carrito carrito) {
+        this.carrito = carrito;
+    }
 }

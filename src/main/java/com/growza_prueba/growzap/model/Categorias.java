@@ -46,4 +46,12 @@ public class Categorias {
     public void setNombre_categoria(String nombre_categoria) {
         this.nombre_categoria = nombre_categoria;
     }
+
+    public List<Productos> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Productos> productos) {
+        this.productos = productos;
+    }
 }

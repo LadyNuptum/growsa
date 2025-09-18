@@ -45,4 +45,9 @@ public class CategoriaController {
             categoriasService.eliminarCategoria(id);
             return ResponseEntity.ok("Categoria eliminado con exito ");
         }
+
+        @GetMapping("/productosPorCategoria/{id_categoria}")
+        public void productosPorCategoria(@PathVariable  Long id_categoria){
+            categoriasService.obtenerProductosPorCategoria(id_categoria);
+        }
 }
