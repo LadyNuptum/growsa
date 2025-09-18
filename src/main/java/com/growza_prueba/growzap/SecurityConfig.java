@@ -32,8 +32,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/loginConDTO").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/growza/usuarios/crear","/growza/usuarios", "/growza/usuarios/loginConDTO").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
