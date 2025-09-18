@@ -10,7 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface ICarritoRepository extends JpaRepository<Carrito, Long> {
+
     @Query("SELECT c FROM Carrito c WHERE c.usuarios.id_usuario = :id_usuario")
     Optional<Carrito> findByUsuariosId(@Param("id_usuario") Long id_usuario);
+
 }
 
