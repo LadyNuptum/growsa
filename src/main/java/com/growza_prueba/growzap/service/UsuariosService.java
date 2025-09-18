@@ -3,15 +3,54 @@ package com.growza_prueba.growzap.service;
 import com.growza_prueba.growzap.model.Usuarios;
 import com.growza_prueba.growzap.repository.IUsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UsuariosService implements IUsuariosService {
-
+    @Autowired
     private final IUsuariosRepository usuariosRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public Usuarios registerUsuario(Usuarios user) {
+        // Validar campos obligatorios
+        if (user.getNombre() == null || user.getApellido() == null ||
+                user.getCorreo() == null || user.getContraseña() == null) {
+            throw new IllegalArgumentException("Todos los campos son obligatorios");
+        }
+
+        // Verificar si el usuario ya existe
+        if (IUsuariosRepository.findByUsername(user.getNombre()) != null) {
+            throw new RuntimeException("El nombre de usuario ya existe");
+        }
+
+        Usuarios newUser = new Usuarios();
+        newUser.setNombre(user.getNombre());
+        newUser.setContraseña(passwordEncoder.encode(user.getContraseña()));
+        newUser.setNombre(user.getNombre());
+        newUser.setApellido(user.getApellido());
+
+        return usuariosRepository.save(newUser);
+    }
+
+    // Métdo de carga de usuario implementado desde UserDetailsService
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuarios user = IUsuariosRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getCorreo(), user.getContraseña(), new ArrayList<>());
+    }
+
+
 
     @Autowired
     public UsuariosService(IUsuariosRepository usuariosRepository) {
