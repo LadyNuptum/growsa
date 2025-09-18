@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/growza/carrito")
@@ -45,5 +46,19 @@ public class CarritoController {
         return ResponseEntity.ok("Carrito eliminado con exito ");
     }
 
+    @GetMapping("/carro-usuario/{id_usuario}")
+    public ResponseEntity<Carrito> obtenerCarritoDeUsuario(@PathVariable Long id_usuario) {
+        Carrito carrito = carritoService.obtenerCarritoDeUsuario(id_usuario);
+        return ResponseEntity.ok(carrito);
+    }
+
+    @PostMapping("/agregar-producto")
+    public ResponseEntity<String> agregarProductoAlCarrito(@RequestBody Map<String, Object> payload) {
+        Long id_usuario = Long.valueOf(payload.get("id_usuario").toString());
+        Long id_producto = Long.valueOf(payload.get("id_producto").toString());
+        Integer cantidad = Integer.valueOf(payload.get("cantidad").toString());
+        carritoService.agregarProducto(id_usuario, id_producto, cantidad);
+        return ResponseEntity.ok("Producto agregado con éxito");
+    }
 
 }

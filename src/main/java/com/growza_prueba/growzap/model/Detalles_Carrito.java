@@ -50,4 +50,12 @@ public class Detalles_Carrito {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+
+    public Productos getProducto() { // Este es el método que te falta
+        return producto;
+    }
+
+    public void setProducto(Productos producto) {
+        this.producto = producto;
+    }
 }
