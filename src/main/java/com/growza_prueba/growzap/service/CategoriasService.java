@@ -1,6 +1,7 @@
 package com.growza_prueba.growzap.service;
 
 import com.growza_prueba.growzap.model.Categorias;
+import com.growza_prueba.growzap.model.Productos;
 import com.growza_prueba.growzap.repository.ICategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,12 @@ public class CategoriasService implements ICategoriasService{
         }else{
             throw  new RuntimeException("El detalle del pedido no fue encontrado.");
         }
+    }
+
+    @Override
+    public List<Productos> obtenerProductosPorCategoria(Long id_categoria) {
+        Categorias categoria = categoriaRepository.findById(id_categoria)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada."));
+        return categoria.getProductos();
     }
 }

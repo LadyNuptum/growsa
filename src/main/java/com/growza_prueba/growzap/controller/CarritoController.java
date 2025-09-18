@@ -48,8 +48,12 @@ public class CarritoController {
 
     @GetMapping("/carro-usuario/{id_usuario}")
     public ResponseEntity<Carrito> obtenerCarritoDeUsuario(@PathVariable Long id_usuario) {
-        Carrito carrito = carritoService.obtenerCarritoDeUsuario(id_usuario);
-        return ResponseEntity.ok(carrito);
+        try {
+            Carrito carrito = carritoService.obtenerCarritoDeUsuario(id_usuario);
+            return ResponseEntity.ok(carrito);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/agregar-producto")
