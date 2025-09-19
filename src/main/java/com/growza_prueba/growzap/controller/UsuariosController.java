@@ -53,8 +53,12 @@ public class UsuariosController {
 
     @PostMapping("/crear")
     public ResponseEntity<String> crearUsuario(@RequestBody Usuarios usuarios) {
+        // 1. Encripta la contraseña antes de guardar el usuario
+         usuarios.setContraseña(passwordEncoder.encode(usuarios.getContraseña()));
+        // 2. Guarda el usuario encriptado en la base de datos
         usuariosService.crearUsuario(usuarios);
         return ResponseEntity.ok("Usuario creado con éxito");
+
     }
 
     @PostMapping("/loginConDTO")
