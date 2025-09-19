@@ -27,12 +27,18 @@ public class SecurityConfig {
     @Lazy
     private com.growza_prueba.growzap.service.UsuariosService usuariosService;
 
+    // Código de tu clase SecurityConfig
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/loginConDTO").permitAll()
+                        // Estas rutas son públicas y no requieren token.
+                        .requestMatchers("/growza/usuarios/crear", "/growza/usuarios/loginConDTO").permitAll()
+                        // Estas rutas están protegidas y solo requieren que el usuario esté autenticado.
+                        .requestMatchers("/growza/usuarios", "/growza/usuarios/**").authenticated()
+                        // Si hay otras rutas, las configuras aquí.
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -106,7 +106,7 @@ public class CarritoService implements  ICarritoService {
 
     @Override
     public Carrito obtenerCarritoDeUsuario(Long id_usuario) {
-        return carritoRepository.findByUsuariosId_usuario(id_usuario)
+        return carritoRepository.findByUsuariosId(id_usuario)
                 .orElseThrow(() -> new RuntimeException("No se encontró el carrito para el usuario"));
     }
     @Override

@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequestMapping("/growza/usuarios")
 public class UsuariosController {
 
-    @Autowired
     private final UsuariosService usuariosService;
 
     @Autowired
@@ -27,8 +26,14 @@ public class UsuariosController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuariosController(UsuariosService usuariosService) {
+    public UsuariosController(
+            UsuariosService usuariosService,
+            JwtUtil jwtUtil,
+            PasswordEncoder passwordEncoder
+    ) {
         this.usuariosService = usuariosService;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -56,7 +61,7 @@ public class UsuariosController {
     public ResponseEntity<String> loginConDTO(@RequestBody UserDto userDto) {
         UserDetails userDetails = usuariosService.loadUserByUsername(userDto.getCorreo());
         if (userDetails != null && passwordEncoder.matches(userDto.getContraseña(), userDetails.getPassword())) {
-            String token = jwtUtil.generateToken(userDetails.getUsername());
+            String token = jwtUtil.generateToken(userDto.getCorreo()); // Usa el correo para generar el token
             return ResponseEntity.ok(token);
         }
         return ResponseEntity.status(401).body("Credenciales inválidas");

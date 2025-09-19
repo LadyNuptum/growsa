@@ -42,11 +42,10 @@ public class UsuariosService implements IUsuariosService {
     }
 
     // Métdo de carga de usuario implementado desde UserDetailsService
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuarios user = IUsuariosRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Usuario no encontrado");
-        }
+    public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
+        Usuarios user = usuariosRepository.findByCorreo(correo)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con correo: " + correo));
+
         return new org.springframework.security.core.userdetails.User(user.getCorreo(), user.getContraseña(), new ArrayList<>());
     }
 
