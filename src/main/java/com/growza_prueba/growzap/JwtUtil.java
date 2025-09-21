@@ -16,8 +16,8 @@ import java.util.function.Function;
 public class JwtUtil {
 
     // @Value: Inyecta la clave secreta desde el archivo de configuración (esencial para seguridad).
-    @Value("${jwt.secret}")
-    private String secretKey; // Clave usada para firmar y verificar tokens.
+ @Value("${jwt.secret:ChangeMe_Secret}")
+private String secretKey; // valor por defecto si no defines jwt.secret
 
     // --- Generación y Creación de Token ---
 
